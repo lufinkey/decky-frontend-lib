@@ -51,7 +51,7 @@ export interface Apps {
   GetLaunchOptionsForApp: any;
   GetResolutionOverrideForApp: any;
   ScanForShortcuts: any;
-  GetAllShortcuts: any;
+  GetAllShortcuts(): Promise<SteamShortcut[]>;
   GetShortcutData: any;
   AddShortcut: any;
   RemoveShortcut: any;
@@ -106,13 +106,23 @@ export interface Apps {
   FetchMarketingMessages: any;
   MarkMarketingMessageSeen: any;
   ReportMarketingMessageSeen: any;
-  RegisterForGameActionStart: any;
+  RegisterForGameActionStart(
+    callback: (
+      actionType: number,
+      strAppId: string,
+      actionName: string
+    ) => any
+  ): RegisteredEvent;
   RegisterForGameActionEnd: any;
   RegisterForGameActionTaskChange: any;
   RegisterForGameActionUserRequest: any;
   RegisterForGameActionShowError: any;
   RegisterForGameActionShowUI: any;
   OpenAppSettingsDialog: any;
+}
+
+export interface InstallFolder {
+  GetInstallFolders(): Promise<InstallFolder[]>
 }
 
 export interface Window {
@@ -181,6 +191,38 @@ export interface SteamClient {
   User: any;
   WebChat: any;
   Window: Window;
+}
+
+export interface RegisteredEvent {
+	unregister(): void
+}
+
+export interface App {
+	nAppID: number
+	strAppName: string
+	strSortAs: string
+	rtLastPlayed: number
+	strUsedSize: string
+	strDLCSize: string
+	strWorkshopSize: string
+	strStagedSize: string
+}
+
+export interface InstallFolder {
+	nFolderIndex: number
+	strFolderPath: string
+	strUserLabel: string
+	strDriveName: string
+	strCapacity: string
+	strFreeSpace: string
+	strUsedSize: string
+	strDLCSize: string
+	strWorkshopSize: string
+	strStagedSize: string
+	bIsDefaultFolder: boolean
+	bIsMounted: boolean
+	bIsFixed: boolean
+	vecApps: App[]
 }
 
 export interface SteamShortcut {
